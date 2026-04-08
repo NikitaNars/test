@@ -23,8 +23,7 @@ jobs:
           cmake ..
           cmake --build . --config Release
 
-      - name: Output
-        run: echo "Готово: сборка C++ завершена"
+
 
   build_dotnet:
     name: Build C#
@@ -52,8 +51,6 @@ jobs:
             exit 0
           fi
 
-      - name: Output
-        run: echo "Готово: сборка C# завершена"
 
   build_js:
     name: Build JavaScript
@@ -76,5 +73,3 @@ jobs:
             echo "No package.json found"
           fi
 
-      - name: Output
-        run: echo "Готово: сборка JS завершена"
