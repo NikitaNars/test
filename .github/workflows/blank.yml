@@ -18,6 +18,7 @@ jobs:
 
       - name: Build C++
         run: |
+          touch CMakeLists.txt
           cmake -B build -G "Ninja"
           cmake --build build
 
@@ -37,7 +38,7 @@ jobs:
 
       - name: Restore and Build
         run: |
-          # ищем файловый проект/решение (*.csproj или *.sln)
+         
           if ls *.csproj 1> /dev/null 2>&1; then
             dotnet restore
             dotnet build --configuration Release
