@@ -19,8 +19,7 @@ jobs:
       - name: Build C++
         run: |
           
-          cmake ..
-          cmake --build . --config Release
+          cmake --build build
 
 
 
