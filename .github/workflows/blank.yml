@@ -18,7 +18,7 @@ jobs:
 
       - name: Build C++
         run: |
-          
+          cmake -B build -G "Ninja"
           cmake --build build
 
 
