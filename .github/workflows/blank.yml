@@ -18,8 +18,7 @@ jobs:
 
       - name: Build C++
         run: |
-          mkdir -p build
-          cd build
+          
           cmake ..
           cmake --build . --config Release
 
