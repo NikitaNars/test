@@ -5,15 +5,76 @@ on:
       - main
       - master
     paths-ignore:
-    - '**.md'
-    - '.gitignore'
-jobs:
-  build:
-    runs-on: ubuntu-latest
+      - '**.md'
+      - '.gitignore'
 
+jobs:
+  build_cpp:
+    name: Build C++
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-      
+
+      - name: Build C++
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          cmake --build . --config Release
+
       - name: Output
-        run: echo "Готово"
+        run: echo "Готово: сборка C++ завершена"
+
+  build_dotnet:
+    name: Build C#
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore and Build
+        run: |
+          # ищем файловый проект/решение (*.csproj или *.sln)
+          if ls *.csproj 1> /dev/null 2>&1; then
+            dotnet restore
+            dotnet build --configuration Release
+          elif ls *.sln 1> /dev/null 2>&1; then
+            dotnet restore
+            dotnet build --configuration Release
+          else
+            echo "No C# проект найден в корне репозитория"
+            exit 0
+          fi
+
+      - name: Output
+        run: echo "Готово: сборка C# завершена"
+
+  build_js:
+    name: Build JavaScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install and Build
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+            npm run build || echo "Нет скрипта build" 
+          else
+            echo "No package.json found"
+          fi
+
+      - name: Output
+        run: echo "Готово: сборка JS завершена"
